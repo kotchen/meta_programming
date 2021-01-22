@@ -5,6 +5,7 @@
 #include <type_traits>
 #include <iostream>
 #include "CRTP.h"
+#include "branch.h"
 
 
 int main()
@@ -36,6 +37,8 @@ int main()
 
 	Derive d;
 	d.Fun("Implementation from derive class");
+
+	std::cout << allOdd<5>::value;
 	
 }
 

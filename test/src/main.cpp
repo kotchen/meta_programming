@@ -28,8 +28,28 @@ namespace p3
 	}
 }
 
+namespace p6
+{
+
+	template <bool cur, bool Next>
+	constexpr static bool orValue = Next;
+
+	template <bool Next>
+	constexpr static bool orValue<true, Next> = true;
+
+	template <size_t N>
+	constexpr static bool isContain = (N == 1);
+
+	template <size_t... inputs>
+	constexpr static bool isContainsOne = false;
+
+	template <size_t cur, size_t... inputs>
+	constexpr static bool isContainsOne<cur, inputs...> = orValue < isContain<cur>, isContainsOne<inputs...> >;
+
+}
+
 int main()
 {
-	using namespace p3;
-	fun();
+	
+	std::cout << p6::isContainsOne<2, 3, 4>;
 }
