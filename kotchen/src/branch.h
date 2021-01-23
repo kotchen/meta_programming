@@ -1,4 +1,5 @@
 #pragma once
+// use std::enable_if
 #include <iostream>
 template<bool IsFeedbackOut, typename T,
 		std::enable_if_t<IsFeedbackOut>* = nullptr>
