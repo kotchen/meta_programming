@@ -3,6 +3,7 @@
 #include "prac_3.h"
 #include <iostream>
 #include <type_traits>
+#include <utility>
 namespace p1
 {
 	void fun()
@@ -15,8 +16,8 @@ namespace p2
 {
 	void fun()
 	{
-		std::cout << isEqual<int, 4>() << '\n';
-		std::cout << isEqual<int, 8>() << '\n';
+		std::cout << isEqual<int, 4> << '\n';
+		std::cout << isEqual<int, 8> << '\n';
 	}
 }
 
@@ -36,9 +37,8 @@ namespace p4
 		using type = int;
 	};
 
-	
 	/*template<typename T>
-	struct has_member_type
+	struct has_memberType
 	{
 	private:
 		template<typename U>
@@ -49,40 +49,100 @@ namespace p4
 		enum { value = std::is_same<decltype(Check<T>(0)), std::true_type>::value };
 	};*/
 
-	template<typename T>
-	bool check()
-	{
-
-		return true;
-	}
-
-	template <typename T>
+	/*template <typename T, std::enable_if_t<std::is_same<decltype()::type, std::true_type>::value>* = nullptr>
 	struct has_member_type
 	{
-		constexpr static bool value = check<T>();
+		constexpr static bool value = true;
 	};
+
+	template <typename T, std::enable_if_t<!std::is_same<typename T::type, std::true_type>::value>* = nullptr>
+	struct has_member_type
+	{
+		constexpr static bool value = false;
+	};*/
+
+
+
+	template<typename T>
+	struct has_member_foo
+	{
+	private:
+		template<typename U>
+		static auto Check(int) -> decltype(std::declval<U>().foo(), std::true_type());
+		template<typename U>
+		static std::false_type Check(...);
+	public:
+		enum { value = std::is_same<decltype(Check<T>(0)), std::true_type>::value };
+	};
+
+	struct myStruct
+	{
+		void foo() { std::cout << "hello" << std::endl; }
+	};
+
+	struct another
+	{
+		void test() { std::cout << "test" << std::endl; }
+	};
+
+	template <int N, int divisor>
+	struct evaluate_primer
+	{
+		constexpr static bool value = (N % divisor) && evaluate_primer<N, divisor - 1>::value;
+	};
+
+	template <int N>
+	struct evaluate_primer<N, 1>
+	{
+		constexpr static bool value = true;
+	};
+
+
+	template <int N>
+	struct is_primer
+	{
+		constexpr static bool value = evaluate_primer<N, N / 2>::value;
+	};
+
+	template <>
+	struct is_primer<0>
+	{
+		constexpr static bool value = false;
+	};
+
+	template <>
+	struct is_primer<1>
+	{
+		constexpr static bool value = false;
+	};
+
+
+
 
 	
 
 
+
 	void fun()
 	{
-		if (has_member_type<A>::value)
-		{
-			std::cout << "has type" << '\n';
-		}
+		using namespace std;
+
+
+		/*cout << has_member_type<A>::value << '\n';
+		cout << has_member_type<int>::value << '\n';*/
+
+		cout << is_primer<3>::value << '\n';
+
+		if (has_member_foo<myStruct>::value)
+			std::cout << "myStruct has foo funciton" << std::endl;
 		else
-		{
-			std::cout << "don't have type" << '\n';
-		}
-		/*if (has_member_type<int>::value)
-		{
-			std::cout << "has type" << '\n';
-		}
+			std::cout << "myStruct does't have foo funciton" << std::endl;
+
+		if (has_member_foo<another>::value)
+			std::cout << "another has foo function" << std::endl;
 		else
-		{
-			std::cout << "don't have type" << '\n';
-		}*/
+			std::cout << "another does't have foo function" << std::endl;
+
 	}
 }
 
