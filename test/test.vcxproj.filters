@@ -24,6 +24,9 @@
     <ClInclude Include="src\prac_3.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\prac_4.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

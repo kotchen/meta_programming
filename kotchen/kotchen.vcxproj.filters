@@ -36,7 +36,10 @@
     <ClInclude Include="src\CRTP.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\SFINE.h">
+    <ClInclude Include="src\varTypeDict.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SFINAE.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

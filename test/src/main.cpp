@@ -32,10 +32,6 @@ namespace p3
 namespace p4
 {
 
-	struct A
-	{
-		using type = int;
-	};
 
 	/*template<typename T>
 	struct has_memberType
@@ -120,7 +116,37 @@ namespace p4
 
 
 	
+	template<typename T>
+	struct is_contain_type
+	{
+		template<typename U>
+		static auto check(int) -> decltype(std::declval<U::type>, std::true_type());
+		template<typename U>
+		static std::false_type check(...);
+		static constexpr bool value = std::is_same<decltype(check<T>(0)), std::true_type>::value;
+	};
 
+	template<typename T>
+	struct has_member_type
+	{
+	private:
+		template<typename U>
+		static auto Check(int) -> decltype(std::declval<U::type>(), std::true_type());
+		template<typename U>
+		static std::false_type Check(...);
+	public:
+		enum { value = std::is_same<decltype(Check<T>(0)), std::true_type>::value };
+	};
+
+	struct A
+	{
+		using type = int;
+	};
+
+	struct B
+	{
+		double a;
+	};
 
 
 	void fun()
@@ -131,7 +157,7 @@ namespace p4
 		/*cout << has_member_type<A>::value << '\n';
 		cout << has_member_type<int>::value << '\n';*/
 
-		cout << is_primer<3>::value << '\n';
+		/*cout << is_primer<3>::value << '\n';
 
 		if (has_member_foo<myStruct>::value)
 			std::cout << "myStruct has foo funciton" << std::endl;
@@ -141,7 +167,9 @@ namespace p4
 		if (has_member_foo<another>::value)
 			std::cout << "another has foo function" << std::endl;
 		else
-			std::cout << "another does't have foo function" << std::endl;
+			std::cout << "another does't have foo function" << std::endl;*/
+
+		std::cout << is_contain_type<A>::value << " " << is_contain_type<B>::value;
 
 	}
 }
@@ -171,7 +199,7 @@ namespace p6
 	}
 }
 
-namespace sfine
+namespace sfinae
 {
 
 	template<typename T>
@@ -207,6 +235,37 @@ namespace sfine
 			std::cout << "another has foo function" << std::endl;
 		else
 			std::cout << "another does't have foo function" << std::endl;
+
+	}
+	
+}
+namespace test
+{
+	template<typename T> class complex;
+	template<typename T>
+	std::ostream& operator<< (std::ostream& out, const test::complex<T>& out_object)
+	{
+		out << out_object.a << " " << out_object.b << '\n';
+		return out;
+	}
+
+	template<typename T>
+	class complex
+	{
+	public:
+		T a;
+		T b;
+		complex(T src_a, T src_b) : a(src_a), b(src_b) {};
+		friend std::ostream& operator<< <T>(std::ostream& out, const complex<T>& out_object);
+	};
+
+
+	void fun()
+	{
+		complex<int> p(1, 1);
+		std::cout << p;
+
+		int a = 0;
 
 	}
 	

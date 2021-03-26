@@ -158,7 +158,8 @@
     <ClInclude Include="src\fun_container.h" />
     <ClInclude Include="src\multiReturnType.h" />
     <ClInclude Include="src\outOfControl.h" />
-    <ClInclude Include="src\SFINE.h" />
+    <ClInclude Include="src\SFINAE.h" />
+    <ClInclude Include="src\varTypeDict.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />

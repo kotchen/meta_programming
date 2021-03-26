@@ -150,6 +150,7 @@
     <ClInclude Include="src\prac_1.h" />
     <ClInclude Include="src\prac_2.h" />
     <ClInclude Include="src\prac_3.h" />
+    <ClInclude Include="src\prac_4.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
